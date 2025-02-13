@@ -81,7 +81,15 @@ function showMemories() {
 
 function showSuccess() {
     document.querySelector('.memories-screen').style.display = 'none';
+    document.querySelector('.proposal-screen').style.display = 'none';
     document.querySelector('.success-screen').style.display = 'block';
+}
+
+function showProposal() {
+    document.querySelector('.memories-screen').style.display = 'none';
+    const proposalScreen = document.querySelector('.proposal-screen');
+    proposalScreen.style.display = 'flex';
+    proposalScreen.classList.add('show');
 }
 
 // Create polaroid elements with click handlers
@@ -226,4 +234,42 @@ document.addEventListener('DOMContentLoaded', () => {
     // Make functions globally available for onclick handlers
     window.showMemories = showMemories;
     window.showSuccess = showSuccess;
+    window.showProposal = showProposal;
+
+    // Handle the "Yes" button click
+    const yesButton = document.querySelector('.yes-button');
+    yesButton.addEventListener('click', handleYes);
+
+    // Make the "No" button run away
+    const noButton = document.querySelector('.no-button');
+    
+    // Define fixed positions for the No button (relative to its original position)
+    const positions = [
+        { x: 1, y: 0 },     // right
+        { x: -1, y: 0 },    // left
+        { x: 0, y: -1 },    // top
+        { x: 0, y: 1 },     // bottom
+        { x: 1, y: -1 },    // top-right
+        { x: -1, y: -1 },   // top-left
+        { x: 1, y: 1 },     // bottom-right
+        { x: -1, y: 1 }     // bottom-left
+    ];
+    
+    let currentPositionIndex = -1; // Start at -1 to begin with original position
+    
+    noButton.addEventListener('mouseover', () => {
+        // Move to next position
+        currentPositionIndex = (currentPositionIndex + 1) % positions.length;
+        const newPosition = positions[currentPositionIndex];
+        
+        // Set the new position
+        noButton.style.setProperty('--random-x', newPosition.x);
+        noButton.style.setProperty('--random-y', newPosition.y);
+    });
 });
+
+// Handle the "Yes" button click
+function handleYes() {
+    alert('Yaaay! I love you so much! 💝');
+    showSuccess();
+}

@@ -641,3 +641,83 @@
     50% { opacity: 1; transform: scale(1); }
   }
   
+  /* Navigation buttons container */
+  .navigation-buttons {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: 0 20px;
+    margin-top: 20px;
+  }
+  
+  /* Proposal Screen */
+  .proposal-screen {
+    display: none;
+    background-color: #ff69b4;
+    border-radius: 20px;
+    padding: 30px;
+    width: 100%;
+    min-height: 80vh;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  }
+  
+  .proposal-screen.show {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: fadeIn 1s ease;
+  }
+  
+  .proposal-content {
+    text-align: center;
+  }
+  
+  .proposal-title {
+    font-family: 'Dancing Script', cursive;
+    color: white;
+    font-size: 3em;
+    margin-bottom: 50px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .proposal-buttons {
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+    margin-top: 40px;
+  }
+  
+  .yes-button, .no-button {
+    padding: 15px 40px;
+    font-size: 1.5em;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  }
+  
+  .yes-button {
+    background-color: #4CAF50;
+    color: white;
+  }
+  
+  .yes-button:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+  }
+  
+  .no-button {
+    background-color: #ff4444;
+    color: white;
+    position: relative;
+    transition: transform 0.3s ease-out;
+  }
+  
+  .no-button:hover {
+    transform: translate(
+      calc(150px * var(--random-x, 1)),
+      calc(150px * var(--random-y, 1))
+    );
+  }
+  
