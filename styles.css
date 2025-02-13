@@ -431,6 +431,14 @@
     }
   }
   
+  .navigation-buttons {
+    display: flex;
+    justify-content: center; /* Center single button, space-between for multiple buttons */
+    width: 100%;
+    padding: 0 20px;
+    margin-top: 20px;
+  }
+  
   .next-button, .back-button {
     background-color: white;
     color: #ff69b4;
@@ -439,14 +447,16 @@
     padding: 15px 30px;
     font-size: 1.2em;
     cursor: pointer;
-    margin-top: 30px;
+    margin: 10px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
+    z-index: 10;
   }
   
   .next-button:hover, .back-button:hover {
     transform: translateY(-3px);
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    background-color: #fff0f5;
   }
   
   .next-button:active, .back-button:active {
@@ -641,15 +651,6 @@
     50% { opacity: 1; transform: scale(1); }
   }
   
-  /* Navigation buttons container */
-  .navigation-buttons {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-    padding: 0 20px;
-    margin-top: 20px;
-  }
-  
   /* Proposal Screen */
   .proposal-screen {
     display: none;
@@ -711,13 +712,13 @@
     background-color: #ff4444;
     color: white;
     position: relative;
-    transition: transform 0.3s ease-out;
+    transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1); /* Snappy animation */
   }
   
   .no-button:hover {
     transform: translate(
-      calc(150px * var(--random-x, 1)),
-      calc(150px * var(--random-y, 1))
+      calc(250px * var(--random-x, 1)),
+      calc(250px * var(--random-y, 1))
     );
   }
   
