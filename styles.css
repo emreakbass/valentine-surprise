@@ -56,7 +56,7 @@
     width: 300px;
     height: 300px;
     position: relative;
-    background-image: url('couple-image.jpg');
+    background-image: url('couple-image.JPG');
     background-size: cover;
     background-position: center;
     -webkit-mask-image: url('data:image/svg+xml,<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path d="M50 90C50 90 87 62 87 35C87 19 74 10 62 10C50 10 50 19 50 19C50 19 50 10 38 10C26 10 13 19 13 35C13 62 50 90 50 90Z"/></svg>');
