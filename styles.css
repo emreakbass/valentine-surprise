@@ -1,0 +1,643 @@
+/* RESET + GLOBAL */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  }
+  
+  body {
+    background-color: #f0f0f0;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .container {
+    width: 100%;
+    max-width: 900px;
+    padding: 20px;
+  }
+  
+  /************************************
+   * LOCK SCREEN (PIN + HEART PUZZLE)
+   ************************************/
+  .lock-screen {
+    background-color: #ff69b4;
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Hide lock screen once .hidden is added in JS */
+  .lock-screen.hidden {
+    display: none;
+  }
+  
+  .cute-title {
+    font-family: 'Dancing Script', cursive;
+    color: white;
+    text-align: center;
+    font-size: 2.5em;
+    margin-bottom: 30px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .content-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 40px;
+  }
+  
+  /* Heart puzzle container */
+  .heart-puzzle {
+    width: 300px;
+    height: 300px;
+    position: relative;
+    background-image: url('couple-image.jpg');
+    background-size: cover;
+    background-position: center;
+    -webkit-mask-image: url('data:image/svg+xml,<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path d="M50 90C50 90 87 62 87 35C87 19 74 10 62 10C50 10 50 19 50 19C50 19 50 10 38 10C26 10 13 19 13 35C13 62 50 90 50 90Z"/></svg>');
+    mask-image: url('data:image/svg+xml,<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path d="M50 90C50 90 87 62 87 35C87 19 74 10 62 10C50 10 50 19 50 19C50 19 50 10 38 10C26 10 13 19 13 35C13 62 50 90 50 90Z"/></svg>');
+    border: 3px solid white;
+    border-radius: 15px;
+  }
+  
+  /************************************
+   * PIN Pad
+   ************************************/
+  .pin-pad {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    padding: 20px;
+    width: 300px;
+  }
+  
+  .pin-display {
+    background-color: white;
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .lock-icon {
+    font-size: 20px;
+  }
+  
+  .pin-dots {
+    display: flex;
+    gap: 10px;
+    margin-left: 10px;
+  }
+  
+  .pin-dot {
+    width: 10px;
+    height: 10px;
+    background-color: #ccc;
+    border-radius: 50%;
+  }
+  
+  .pin-dot.filled {
+    background-color: #ff69b4;
+  }
+  
+  .keypad {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+  }
+  
+  .key {
+    background-color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 15px;
+    font-size: 24px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  
+  .key:hover {
+    background-color: rgba(255, 255, 255, 0.8);
+  }
+  
+  .key:active {
+    transform: scale(0.95);
+  }
+  
+  .heart-key {
+    font-size: 20px;
+    color: #ff69b4;
+    transition: all 0.3s ease;
+  }
+  
+  .heart-key:hover {
+    transform: scale(1.1);
+    background-color: #fff0f5;
+  }
+  
+  .heart-key:active {
+    transform: scale(0.9);
+  }
+  
+  .backspace-key {
+    font-size: 20px;
+    color: #666;
+    transition: all 0.3s ease;
+  }
+  
+  .backspace-key:hover {
+    color: #ff4081;
+    background-color: #fff0f5;
+  }
+  
+  .backspace-key:active {
+    transform: scale(0.9);
+  }
+  
+  /* Wrong PIN shake animation */
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-10px); }
+    75% { transform: translateX(10px); }
+  }
+  
+  .pin-pad.shake {
+    animation: shake 0.5s ease-in-out;
+  }
+  
+  /************************************
+   * Puzzle pieces
+   ************************************/
+  .puzzle-piece {
+    position: absolute;
+    transition: transform 0.5s ease, opacity 0.5s ease;
+  }
+  
+  .puzzle-piece.solved {
+    transform: none !important; /* final position */
+    opacity: 1 !important;
+  }
+  
+  /************************************
+   * SUCCESS SCREEN (Envelope + Letter)
+   ************************************/
+  .success-screen {
+    display: none;
+  }
+  
+  .success-screen.hidden {
+    display: none;
+  }
+  
+  .success-message {
+    background-color: #ffaec9;
+    border-radius: 20px;
+    padding: 40px;
+    text-align: center;
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    animation: fadeIn 1s ease;
+  }
+  
+  .success-message h1 {
+    font-family: 'Dancing Script', cursive;
+    font-size: 3em;
+    color: white;
+    margin-bottom: 30px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .floating-hearts {
+    margin: 20px 0;
+  }
+  
+  .floating-hearts span {
+    font-size: 2em;
+    margin: 0 10px;
+    display: inline-block;
+    animation: float 2s ease-in-out infinite;
+  }
+  
+  .floating-hearts span:nth-child(2) {
+    animation-delay: 0.5s;
+  }
+  
+  .floating-hearts span:nth-child(3) {
+    animation-delay: 1s;
+  }
+  
+  .floating-hearts span:nth-child(4) {
+    animation-delay: 1.5s;
+  }
+  
+  .success-message p {
+    color: white;
+    font-size: 1.2em;
+    margin: 15px 0;
+    line-height: 1.6;
+  }
+  
+  .love-note {
+    font-family: 'Dancing Script', cursive;
+    font-size: 1.5em !important;
+    margin-top: 30px !important;
+  }
+  
+  @keyframes float {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-20px);
+    }
+  }
+  
+  @keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+  }
+  
+  /* The pink card container */
+  .mail-container {
+    background-color: #ffaec9;
+    border-radius: 20px;
+    padding: 40px;
+    text-align: center; /* center everything inside */
+    width: 500px;
+    max-width: 100%;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    margin: 0 auto;
+    position: relative;
+    transition: transform 0.8s ease;
+  }
+  
+  .mail-heading {
+    font-family: 'Dancing Script', cursive; /* match the PIN screen font */
+    font-size: 2.5em;
+    color: #fff;
+    margin-bottom: 30px;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+  }
+  
+  /* Envelope wrapper (will move up once opened) */
+  .envelope-wrapper {
+    width: 300px;
+    height: 200px;
+    margin: 0 auto 20px auto;
+    position: relative;
+    transition: transform 0.8s ease;
+  }
+  
+  /* Envelope image (closed or open) */
+  .envelope-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.8s ease;
+  }
+  
+  /* "Read Me!" button - center it with margin: 0 auto */
+  .read-button {
+    display: block;
+    margin: 0 auto;
+    margin-top: 20px;
+    background-color: #ff5e91;
+    color: #fff;
+    border: none;
+    border-radius: 20px;
+    padding: 12px 24px;
+    font-size: 1em;
+    cursor: pointer;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+    transition: transform 0.3s ease;
+  }
+  
+  .read-button:hover {
+    transform: scale(1.05);
+  }
+  
+  .read-button:active {
+    transform: scale(0.95);
+  }
+  
+  /* The letter that slides up from behind the open envelope */
+  .letter {
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 20px;
+    width: 280px;
+    margin: 20px auto 0 auto;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+    transform: translateY(20px);
+    opacity: 0;
+    transition: all 0.6s ease;
+    position: relative;
+  }
+  
+  /* hidden by default: no pointer events, invisible */
+  .letter.hidden {
+    pointer-events: none;
+  }
+  
+  /* Show letter */
+  .letter.show {
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: auto;
+  }
+  
+  .letter-heading {
+    font-family: 'Dancing Script', cursive;
+    font-size: 1.4em;
+    color: #ff5e91;
+    margin-bottom: 10px;
+  }
+  
+  .letter-body {
+    line-height: 1.4em;
+    margin-bottom: 20px;
+    color: #333;
+    text-align: center;
+  }
+  
+  .close-letter {
+    background-color: #ff5e91;
+    color: #fff;
+    border: none;
+    border-radius: 20px;
+    padding: 8px 16px;
+    cursor: pointer;
+    font-size: 0.9em;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+    transition: transform 0.3s ease;
+  }
+  
+  .close-letter:hover {
+    transform: scale(1.05);
+  }
+  
+  .close-letter:active {
+    transform: scale(0.95);
+  }
+  
+  /*
+     We'll add .opened to .mail-container in JS
+     to move the envelope upward & swap the envelope image
+  */
+  .mail-container.opened .envelope-wrapper {
+    transform: translateY(-40px); /* move envelope up a bit */
+  }
+  
+  /* Responsive design for smaller screens */
+  @media (max-width: 768px) {
+    .content-wrapper {
+      flex-direction: column;
+    }
+  
+    .heart-puzzle {
+      width: 250px;
+      height: 250px;
+    }
+  
+    .container {
+      padding: 10px;
+    }
+  
+    .cute-title {
+      font-size: 2em;
+    }
+  
+    .mail-container {
+      width: 90%;
+    }
+  
+    .envelope-wrapper {
+      width: 250px;
+      height: 150px;
+    }
+  }
+  
+  .next-button, .back-button {
+    background-color: white;
+    color: #ff69b4;
+    border: none;
+    border-radius: 25px;
+    padding: 15px 30px;
+    font-size: 1.2em;
+    cursor: pointer;
+    margin-top: 30px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+  }
+  
+  .next-button:hover, .back-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+  }
+  
+  .next-button:active, .back-button:active {
+    transform: translateY(1px);
+  }
+  
+  /* Memories Screen */
+  .memories-screen {
+    display: none;
+    background-color: #ff69b4;
+    border-radius: 20px;
+    padding: 30px;
+    width: 100%;
+    min-height: 80vh;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  }
+  
+  .memories-screen.show {
+    display: block;
+    animation: fadeIn 1s ease;
+  }
+  
+  .memories-title {
+    font-family: 'Dancing Script', cursive;
+    color: white;
+    text-align: center;
+    font-size: 2.5em;
+    margin-bottom: 40px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .polaroid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+    padding: 20px;
+  }
+  
+  .polaroid {
+    background: white;
+    padding: 15px 15px 40px 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    border-radius: 3px;
+    transform: rotate(0deg);
+    transition: all 0.3s ease;
+    opacity: 0;
+    animation: fadeInUp 0.5s ease forwards;
+  }
+  
+  .polaroid:hover {
+    transform: scale(1.05) rotate(0deg) !important;
+    z-index: 2;
+  }
+  
+  .polaroid img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 2px;
+    margin-bottom: 10px;
+  }
+  
+  .polaroid p {
+    font-family: 'Dancing Script', cursive;
+    text-align: center;
+    font-size: 1.2em;
+    color: #666;
+  }
+  
+  @keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px) rotate(var(--random-rotate));
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) rotate(var(--random-rotate));
+    }
+  }
+  
+  /* Responsive design updates */
+  @media (max-width: 768px) {
+    .polaroid-container {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 20px;
+    }
+  
+    .polaroid img {
+        height: 150px;
+    }
+  
+    .memories-title {
+        font-size: 2em;
+    }
+  }
+  
+  .music-toggle {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: white;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+    cursor: pointer;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    z-index: 1000;
+  }
+  
+  .music-toggle:hover {
+    transform: scale(1.1);
+  }
+  
+  .music-toggle.playing {
+    animation: pulse 2s infinite;
+  }
+  
+  .interactive-hearts {
+    height: 100px;
+    position: relative;
+    margin: 20px 0;
+    cursor: pointer;
+  }
+  
+  .floating-heart {
+    position: absolute;
+    font-size: 24px;
+    animation: floatUp 1.5s ease-out forwards;
+    pointer-events: none;
+  }
+  
+  .memory-notes {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(255, 255, 255, 0.95);
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    max-width: 80%;
+    text-align: center;
+    transition: all 0.3s ease;
+  }
+  
+  .memory-notes.hidden {
+    transform: translate(-50%, 100%);
+    opacity: 0;
+  }
+  
+  .memory-notes .note {
+    font-family: 'Dancing Script', cursive;
+    font-size: 1.2em;
+    color: #ff69b4;
+    margin: 0;
+  }
+  
+  .polaroid {
+    cursor: pointer;
+  }
+  
+  @keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+  }
+  
+  @keyframes floatUp {
+    0% {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-100px) scale(1.5);
+        opacity: 0;
+    }
+  }
+  
+  /* Add sparkle effect to the title */
+  .memories-title::after {
+    content: '✨';
+    position: absolute;
+    animation: sparkle 1.5s infinite;
+    font-size: 0.8em;
+  }
+  
+  @keyframes sparkle {
+    0%, 100% { opacity: 0; transform: scale(0); }
+    50% { opacity: 1; transform: scale(1); }
+  }
+  
