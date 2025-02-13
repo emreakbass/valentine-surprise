@@ -8,7 +8,7 @@
    - `script.js`
    - `romantic-music.wav`
    - All the photos (pic1.jpeg through pic10.jpeg)
-   - `couple-image.jpg`
+   - `couple-image.JPG`
 
 2. Keep all files in the same folder
 
