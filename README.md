@@ -14,8 +14,6 @@
 
 3. Simply double-click on `index.html` to open it in your web browser
 
-4. Enter the password: `9030` 💝
-
 ## What to Expect
 - A beautiful heart puzzle will form when you enter the correct password
 - Romantic music will play automatically
